@@ -1,53 +1,46 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import {
-  Link,
-  Outlet,
-  RouterProvider,
-  createHashRouter,
-} from "react-router-dom";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { Link, Outlet, RouterProvider, createHashRouter } from 'react-router-dom';
 
-import "./index.css";
-import TimersView from "./views/TimersView";
-import DocumentationView from "./views/DocumentationView";
+import './index.css';
+import { TimerProvider } from './context/TimerContext';
+import AddTimerView from './views/AddTimerView';
+import DocumentationView from './views/DocumentationView';
+import TimersView from './views/TimersView';
 
 const PageIndex = () => {
-  return (
-    <div>
-      <h1 className="main-heading">Assignment 01</h1>
-      <ul className="link-list">
-        <li>
-          <Link to="/" className="nav-link">Timers</Link>
-        </li>
-        <li>
-          <Link to="/docs" className="nav-link">Documentation</Link>
-        </li>
-      </ul>
-      <Outlet />
-    </div>
-  );
+    return (
+        <div>
+            <h1 className="main-heading">Workout App</h1>
+            <ul className="link-list">
+                <li>
+                    <Link to="/">Home</Link>
+                </li>
+                <li>
+                    <Link to="/add">Add Timer</Link>
+                </li>
+            </ul>
+            <Outlet />
+        </div>
+    );
 };
 
 const router = createHashRouter([
-  {
-    path: "/",
-    element: <PageIndex />,
-    children: [
-      {
-        index: true,
-        element: <TimersView />,
-      },
-      {
-        path: "/docs",
-        element: <DocumentationView />,
-      },
-    ],
-  },
+    {
+        path: '/',
+        element: <PageIndex />,
+        children: [
+            { index: true, element: <TimersView /> },
+            { path: '/add', element: <AddTimerView /> },
+            { path: '/docs', element: <DocumentationView /> },
+        ],
+    },
 ]);
 
-// biome-ignore lint/style/noNonNullAssertion: root html element is there
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
+createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+        <TimerProvider>
+            <RouterProvider router={router} />
+        </TimerProvider>
+    </StrictMode>,
 );

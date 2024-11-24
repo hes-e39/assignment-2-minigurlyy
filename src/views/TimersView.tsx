@@ -1,57 +1,57 @@
-import styled from "styled-components";
+import type React from 'react';
+import { useTimerContext } from '../context/TimerContext';
 
-import Stopwatch from "../components/timers/Stopwatch";
-import Countdown from "../components/timers/Countdown";
-import XY from "../components/timers/XY";
-import Tabata from "../components/timers/Tabata";
+const TimersView: React.FC = () => {
+    const { timers, removeTimer, resetWorkout, fastForward, startWorkout, currentTimer } = useTimerContext();
 
-const Timers = styled.div`
-  display: flex;
-  flex-direction: row; /* Aligns timers in a row */
-  justify-content: center; /* Centers timers horizontally */
-  gap: 20px; /* Space between each timer */
-  flex-wrap: wrap; /* Wraps timers to the next line on smaller screens */
-  padding: 20px;
-`;
+    return (
+        <div>
+            <h2>Workout Timers</h2>
+            <ul>
+                {timers.map(timer => (
+                    <li key={timer.id}>
+                        <div>
+                            <strong>Type:</strong> {timer.type}
+                        </div>
+                        <div>
+                            <strong>Config:</strong> {JSON.stringify(timer.config)}
+                        </div>
+                        <div>
+                            <strong>State:</strong> {timer.state}
+                        </div>
+                        <button onClick={() => removeTimer(timer.id)}>Remove</button>
+                    </li>
+                ))}
+            </ul>
 
-const Timer = styled.div`
-  border: 2px solid #D9BF8F2;
-  padding: 20px;
-  margin: 10px;
-  font-size: 1.5rem;
-  width: 250px;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  overflow: hidden;
-`;
+            <div>
+                <button onClick={startWorkout} disabled={timers.length === 0 || currentTimer?.state === 'running'}>
+                    Start Workout
+                </button>
+                <button onClick={resetWorkout} disabled={timers.length === 0}>
+                    Reset Workout
+                </button>
+                <button onClick={fastForward} disabled={!currentTimer || currentTimer.state === 'completed'}>
+                    Fast Forward
+                </button>
+            </div>
 
-const TimerTitle = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-`;
-
-const TimersView = () => {
-  const timers = [
-    { title: "Stopwatch", C: <Stopwatch /> },
-    { title: "Countdown", C: <Countdown /> },
-    { title: "XY", C: <XY /> },
-    { title: "Tabata", C: <Tabata /> },
-  ];
-
-  return (
-    <Timers>
-      {timers.map((timer) => (
-        <Timer key={`timer-${timer.title}`}>
-          <TimerTitle>{timer.title}</TimerTitle>
-          {timer.C}
-        </Timer>
-      ))}
-    </Timers>
-  );
+            {currentTimer && (
+                <div>
+                    <h3>Current Timer</h3>
+                    <div>
+                        <strong>Type:</strong> {currentTimer.type}
+                    </div>
+                    <div>
+                        <strong>Config:</strong> {JSON.stringify(currentTimer.config)}
+                    </div>
+                    <div>
+                        <strong>State:</strong> {currentTimer.state}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default TimersView;

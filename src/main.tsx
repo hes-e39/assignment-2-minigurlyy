@@ -7,6 +7,7 @@ import { TimerProvider } from './context/TimerContext';
 import AddTimerView from './views/AddTimerView';
 import DocumentationView from './views/DocumentationView';
 import TimersView from './views/TimersView';
+import WorkoutView from './views/WorkoutView';
 
 const PageIndex = () => {
     return (
@@ -19,6 +20,12 @@ const PageIndex = () => {
                 <li>
                     <Link to="/add">Add Timer</Link>
                 </li>
+                <li>
+                    <Link to="/workout">Workout</Link>
+                </li>
+                <li>
+                    <Link to="/docs">Documentation</Link>
+                </li>
             </ul>
             <Outlet />
         </div>
@@ -30,13 +37,15 @@ const router = createHashRouter([
         path: '/',
         element: <PageIndex />,
         children: [
-            { index: true, element: <TimersView /> },
-            { path: '/add', element: <AddTimerView /> },
-            { path: '/docs', element: <DocumentationView /> },
+            { index: true, element: <TimersView /> }, // Default home page displays all timers
+            { path: '/add', element: <AddTimerView /> }, // Add a new timer
+            { path: '/workout', element: <WorkoutView /> }, // View and interact with the workout
+            { path: '/docs', element: <DocumentationView /> }, // Documentation for the components
         ],
     },
 ]);
 
+// Render the application
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <TimerProvider>

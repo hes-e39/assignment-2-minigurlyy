@@ -1,8 +1,8 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import DocumentComponent from "../components/documentation/DocumentComponent";
+import DocumentComponent from '../components/documentation/DocumentComponent';
 
-import Loading from "../components/generic/Loading";
+import Loading from '../components/generic/Loading';
 
 const Container = styled.div`
   display: flex;
@@ -18,25 +18,25 @@ const Title = styled.div`
  * You can document your components by using the DocumentComponent component
  */
 const Documentation = () => {
-  return (
-    <Container>
-      <div>
-        <Title>Documentation</Title>
-        <DocumentComponent
-          title="Loading spinner "
-          component={<Loading size="medium" color="#ffa2bf" />}
-          propDocs={[
-            {
-              prop: "size",
-              description: "Changes the size of the loading spinner",
-              type: "string",
-              defaultValue: "medium",
-            },
-          ]}
-        />
-      </div>
-    </Container>
-  );
+    return (
+        <Container>
+            <div>
+                <Title>Documentation</Title>
+                <DocumentComponent
+                    title="Loading spinner "
+                    component={<Loading size="medium" color="#ffa2bf" />}
+                    propDocs={[
+                        {
+                            prop: 'size',
+                            description: 'Changes the size of the loading spinner',
+                            type: 'string',
+                            defaultValue: 'medium',
+                        },
+                    ]}
+                />
+            </div>
+        </Container>
+    );
 };
 
 export default Documentation;
